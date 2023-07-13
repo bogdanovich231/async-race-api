@@ -20,7 +20,14 @@ module.exports = {
             },
             {
                 test: /\.svg$/,
-                use: 'file-loader',
+                type: 'asset/resource',
+            },
+            {
+                test: /\.(jpg|jpeg|png|gif)$/,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'img/[name].[ext]',
+                },
             },
         ],
     },
@@ -32,6 +39,7 @@ module.exports = {
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
+        assetModuleFilename: '[name][ext]',
     },
     devServer: {
         port: 8080,

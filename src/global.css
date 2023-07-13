@@ -1,3 +1,18 @@
 body {
-    background-color: aqua;
+    background: linear-gradient(to right, #000000, #1d1dff);
+    background-size: 200% 100%;
+    animation: gradientAnimation 10s ease infinite alternate;
+    filter: brightness(200%);
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes gradientAnimation {
+    20% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 100% 50%;
+    }
 }
