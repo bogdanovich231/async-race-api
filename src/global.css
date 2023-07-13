@@ -4,7 +4,7 @@ body {
     animation: gradientAnimation 10s ease infinite alternate;
     filter: brightness(200%);
     position: relative;
-    overflow: hidden;
+    overflow: visible;
 }
 
 @keyframes gradientAnimation {
@@ -15,4 +15,18 @@ body {
     100% {
         background-position: 100% 50%;
     }
+}
+
+
+.block_car svg {
+    width: 85px;
+    height: 70px;
+}
+
+.block_car {
+    display: grid;
+}
+
+.block_car span {
+    color: white;
 }
