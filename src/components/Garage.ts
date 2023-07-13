@@ -1,6 +1,7 @@
 import { Car, GarageViewState } from './interface/interface';
 import { genereteButton, renderGarage, getRandomName, getRandomColor } from './CardCar';
 import { addCar } from './Api';
+import { viewGarage } from './CardCar'
 
 export default class Garage {
     private cars: Car[] = [
@@ -59,6 +60,10 @@ export default class Garage {
 
 const garage = new Garage();
 
+
+viewGarage.addEventListener('click', async () => {
+    renderGarage(garage.getCars());
+})
 genereteButton.addEventListener('click', async () => {
     for (let i = 0; i < 100; i++) {
         const car: Car = {

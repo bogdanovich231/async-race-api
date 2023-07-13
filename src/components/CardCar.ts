@@ -1,19 +1,23 @@
-import { Car } from './interface/interface';
+import { Car, Winner } from './interface/interface';
 import { names } from './NameCar';
 
 export const genereteButton = document.createElement("button");
 export const containerCar = document.createElement("div");
 export const winnerButton = document.createElement("button");
-
+export const viewGarage = document.createElement("button");
 winnerButton.className = "car_winner"
 genereteButton.className = "car_generate";
 containerCar.className = "car_container";
 
-genereteButton.innerHTML = "Generate";
-winnerButton.innerHTML = "Winnner";
 
-document.body.appendChild(genereteButton);
+viewGarage.innerHTML = "To Garage";
+viewGarage.className = "garage_button";
+genereteButton.innerHTML = "Generate";
+winnerButton.innerHTML = "To Winnner";
+
+document.body.appendChild(viewGarage);
 document.body.appendChild(winnerButton);
+document.body.appendChild(genereteButton);
 document.body.appendChild(containerCar);
 
 
@@ -139,3 +143,33 @@ l26 0 -7 123 c-10 179 -15 207 -36 207 -10 0 -63 -48 -119 -107z" fill="${car.colo
     });
 }
 
+export function renderWinners(winners: Winner[]): void {
+    containerCar.innerHTML = '';
+
+    winners.forEach((winner: Winner, index: number) => {
+        const winnerElement = document.createElement('div');
+        winnerElement.className = "block_car";
+
+        const carElement = document.createElement('div');
+        carElement.className = "car_info";
+
+        const placeElement = document.createElement('span');
+        placeElement.className = "car_place";
+        placeElement.textContent = `Place: ${index + 1}`;
+
+        const nameElement = document.createElement('span');
+        nameElement.className = "car_name";
+        nameElement.textContent = `Name: ${winner.name}`;
+
+        const timeElement = document.createElement('span');
+        timeElement.className = "car_time";
+        timeElement.textContent = `Time: ${winner.time} seconds`;
+
+        carElement.appendChild(placeElement);
+        carElement.appendChild(nameElement);
+        carElement.appendChild(timeElement);
+
+        winnerElement.appendChild(carElement);
+        containerCar.appendChild(winnerElement);
+    });
+}
