@@ -13,8 +13,9 @@ genereteButton.innerHTML = "Generate";
 winnerButton.innerHTML = "Winnner";
 
 document.body.appendChild(genereteButton);
-document.body.appendChild(containerCar);
 document.body.appendChild(winnerButton);
+document.body.appendChild(containerCar);
+
 
 export function getRandomName(): string {
     const randomIndex = Math.floor(Math.random() * names.length);
