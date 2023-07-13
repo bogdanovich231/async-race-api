@@ -30,3 +30,13 @@ body {
 .block_car span {
     color: white;
 }
+
+.car_generate,
+.car_winner {
+    width: 95px;
+    height: 25px;
+    border-radius: 11px;
+    border: none;
+    color: black;
+    font-size: 15px;
+}

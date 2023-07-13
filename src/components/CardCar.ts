@@ -3,12 +3,18 @@ import { names } from './NameCar';
 
 export const genereteButton = document.createElement("button");
 export const containerCar = document.createElement("div");
+export const winnerButton = document.createElement("button");
 
+winnerButton.className = "car_winner"
 genereteButton.className = "car_generate";
 containerCar.className = "car_container";
 
+genereteButton.innerHTML = "Generate";
+winnerButton.innerHTML = "Winnner";
+
 document.body.appendChild(genereteButton);
 document.body.appendChild(containerCar);
+document.body.appendChild(winnerButton);
 
 export function getRandomName(): string {
     const randomIndex = Math.floor(Math.random() * names.length);
