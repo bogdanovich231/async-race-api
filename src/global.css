@@ -21,6 +21,7 @@ body {
 .block_car svg {
     width: 85px;
     height: 70px;
+    margin-bottom: -18px;
 }
 
 .block_car {
@@ -29,6 +30,8 @@ body {
 
 .block_car span {
     color: white;
+    margin-bottom: -5px;
+    margin-top: 15px;
 }
 
 .car_generate,
@@ -71,15 +74,10 @@ h2 {
     font-size: 25px;
 }
 
-.pagination button:hover {
-    background-color: #eeeeee;
-}
-
-.pagination button.active {
-    background-color: #333333;
-    color: #ffffff;
-}
-
 .pagination span {
     margin: 0 5px;
+}
+
+.block_car {
+    border-bottom: 3px red dashed;
 }
