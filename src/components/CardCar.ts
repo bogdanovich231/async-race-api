@@ -1,25 +1,25 @@
 import { Car, Winner } from './interface/interface';
 import { names } from './NameCar';
+import { garage } from './Garage';
 
 export const genereteButton = document.createElement("button");
 export const containerCar = document.createElement("div");
 export const winnerButton = document.createElement("button");
 export const viewGarage = document.createElement("button");
+
 winnerButton.className = "car_winner"
 genereteButton.className = "car_generate";
 containerCar.className = "car_container";
 
-
 viewGarage.innerHTML = "To Garage";
 viewGarage.className = "garage_button";
 genereteButton.innerHTML = "Generate";
-winnerButton.innerHTML = "To Winnner";
+winnerButton.innerHTML = "To Winner";
 
 document.body.appendChild(viewGarage);
 document.body.appendChild(winnerButton);
 document.body.appendChild(genereteButton);
 document.body.appendChild(containerCar);
-
 
 export function getRandomName(): string {
     const randomIndex = Math.floor(Math.random() * names.length);
@@ -35,10 +35,23 @@ export function getRandomColor(): string {
     return color;
 }
 
-export function renderGarage(cars: Car[]): void {
+export function renderGarage(cars: Car[], currentPage: number, pageCount: number): void {
     containerCar.innerHTML = '';
 
+    const garageHeader = document.createElement('div');
+    garageHeader.className = 'garage_header';
+
+    const pageTitle = document.createElement('h2');
+    pageTitle.textContent = 'Garage';
+
+    const carCount = document.createElement('span');
+    carCount.textContent = `Car Count: ${garage.getCars().length}`;
+    garageHeader.appendChild(pageTitle);
+    garageHeader.appendChild(carCount);
+    containerCar.appendChild(garageHeader);
+
     cars.forEach((car: Car) => {
+
         const carElement = document.createElement('div');
         carElement.className = "block_car"
         const svgString = `
@@ -141,10 +154,45 @@ l26 0 -7 123 c-10 179 -15 207 -36 207 -10 0 -63 -48 -119 -107z" fill="${car.colo
         carElement.innerHTML = `<span>${car.name}</span>${svgString}`;
         containerCar.appendChild(carElement);
     });
+    const pagination = document.createElement('div');
+    pagination.className = 'pagination';
+
+
+    const currentPageInfo = document.createElement('span');
+    currentPageInfo.textContent = `Page ${currentPage} of ${pageCount}`;
+
+    containerCar.appendChild(pagination);
+    const previousButton = document.createElement('button');
+    previousButton.textContent = '<';
+    previousButton.addEventListener('click', () => {
+        garage.previousPage();
+    });
+    pagination.appendChild(previousButton);
+
+    pagination.appendChild(currentPageInfo);
+
+    const nextButton = document.createElement('button');
+    nextButton.textContent = '>';
+    nextButton.addEventListener('click', () => {
+        garage.nextPage();
+    });
+    pagination.appendChild(nextButton);
 }
 
 export function renderWinners(winners: Winner[]): void {
     containerCar.innerHTML = '';
+    const winnersHeader = document.createElement('div');
+    winnersHeader.className = 'winners_header';
+
+    const pageTitle = document.createElement('h2');
+    pageTitle.textContent = 'Winners';
+
+    const winnerCount = document.createElement('span');
+    winnerCount.textContent = `Winner Count: ${winners.length}`;
+
+    winnersHeader.appendChild(pageTitle);
+    winnersHeader.appendChild(winnerCount);
+    containerCar.appendChild(winnersHeader);
 
     winners.forEach((winner: Winner, index: number) => {
         const winnerElement = document.createElement('div');

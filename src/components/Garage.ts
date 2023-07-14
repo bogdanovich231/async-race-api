@@ -1,52 +1,30 @@
 import { Car, GarageViewState } from './interface/interface';
 import { genereteButton, renderGarage, getRandomName, getRandomColor } from './CardCar';
-import { addCar } from './Api';
-import { viewGarage } from './CardCar'
+import { addCar, getCars } from './Api';
+import { viewGarage } from './CardCar';
 
 export default class Garage {
-    private cars: Car[] = [
-        {
-            "name": "Tesla",
-            "color": "#e6e6fa",
-            "id": 1
-        },
-        {
-            "name": "BMW",
-            "color": "#fede00",
-            "id": 2
-        },
-        {
-            "name": "Mersedes",
-            "color": "#6c779f",
-            "id": 3
-        },
-        {
-            "name": "Ford",
-            "color": "#ef3c40",
-            "id": 4
-        },
-        {
-            "name": "Chevrolet",
-            "color": "#B67FF2",
-            "id": 5
-        },
-    ];
+    private cars: Car[] = [];
     private state: GarageViewState = {
         name: 'Garage',
         pageNumber: 1,
         totalItems: 0,
     };
 
+    public itemsPerPage = 7;
+    private currentPage: number = 1;
+
     async loadCars(): Promise<void> {
+        this.cars = await getCars();
         this.state.totalItems = this.cars.length;
-        renderGarage(this.cars.slice(0, 4));
+        this.showPage(this.currentPage);
     }
 
     async addCar(car: Car): Promise<void> {
         await addCar(car);
         this.cars.push(car);
         this.state.totalItems = this.cars.length;
-        renderGarage(this.cars);
+        this.showPage(this.currentPage);
     }
 
     getViewState(): GarageViewState {
@@ -56,20 +34,47 @@ export default class Garage {
     getCars(): Car[] {
         return this.cars;
     }
+
+    getPageCount(): number {
+        return Math.ceil(this.state.totalItems / this.itemsPerPage);
+    }
+
+    showPage(pageNumber: number): void {
+        const startIndex = (pageNumber - 1) * this.itemsPerPage;
+        const endIndex = startIndex + this.itemsPerPage;
+        const carsOnPage = this.cars.slice(startIndex, endIndex);
+        const pageCount = this.getPageCount();
+        renderGarage(carsOnPage, pageNumber, pageCount);
+        this.currentPage = pageNumber;
+    }
+
+    public nextPage(): void {
+        if (this.currentPage < this.getPageCount()) {
+            this.currentPage++;
+            this.showPage(this.currentPage);
+        }
+    }
+
+    public previousPage(): void {
+        if (this.currentPage > 1) {
+            this.currentPage--;
+            this.showPage(this.currentPage);
+        }
+    }
 }
 
-const garage = new Garage();
-
+export const garage = new Garage();
 
 viewGarage.addEventListener('click', async () => {
-    renderGarage(garage.getCars());
-})
+    garage.showPage(1);
+});
+
 genereteButton.addEventListener('click', async () => {
     for (let i = 0; i < 100; i++) {
         const car: Car = {
             name: getRandomName(),
             color: getRandomColor(),
-            id: garage.getViewState().totalItems + 1,
+            id: garage.getCars().length + 1,
         };
         await garage.addCar(car);
     }

@@ -32,11 +32,54 @@ body {
 }
 
 .car_generate,
-.car_winner {
+.car_winner,
+.garage_button {
     width: 95px;
     height: 25px;
     border-radius: 11px;
     border: none;
     color: black;
     font-size: 15px;
+}
+
+span,
+h2 {
+    color: white;
+}
+
+.garage_header h2 {
+    margin: 0px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.pagination button {
+    border: none;
+    background-color: #ffffff;
+    color: #1d1dff;
+    padding: 12px 20px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 45px;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.pagination button:hover {
+    background-color: #eeeeee;
+}
+
+.pagination button.active {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+.pagination span {
+    margin: 0 5px;
 }
