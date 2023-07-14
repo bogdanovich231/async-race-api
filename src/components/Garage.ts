@@ -1,7 +1,8 @@
 import { Car, GarageViewState } from './interface/interface';
-import { genereteButton, renderGarage, getRandomName, getRandomColor } from './CardCar';
+import { genereteButton, getRandomName, getRandomColor } from './CardCar';
 import { addCar, getCars } from './Api';
 import { viewGarage } from './CardCar';
+import { renderGarage } from './GarageRender';
 
 export default class Garage {
     private cars: Car[] = [];

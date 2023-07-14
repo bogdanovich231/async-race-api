@@ -1,6 +1,7 @@
 import { Winner, WinnersViewState } from './interface/interface';
-import { winnerButton, renderWinners } from './CardCar';
+import { winnerButton } from './CardCar';
 import { addWin, getWin } from './Api';
+import { renderWinners } from './WinnersRender';
 
 export default class Winners {
     private winners: Winner[] = [];
