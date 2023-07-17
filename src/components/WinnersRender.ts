@@ -18,7 +18,7 @@ export function renderWinners(winners: Winner[]): void {
 
     winners.forEach((winner: Winner, index: number) => {
         const winnerElement = document.createElement('div');
-        winnerElement.className = "block_car";
+        winnerElement.className = "block_car_winner";
 
         const carElement = document.createElement('div');
         carElement.className = "car_info";
