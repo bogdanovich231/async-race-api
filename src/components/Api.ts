@@ -14,10 +14,11 @@ export async function getWin(): Promise<Winner[]> {
 }
 export async function addCar(car: Car): Promise<void> {
     await fetch(`${API_URL}/garage`, {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
+        body: JSON.stringify(car)
     });
 }
 export async function addWin(win: Winner): Promise<void> {
@@ -32,5 +33,15 @@ export async function addWin(win: Winner): Promise<void> {
 export async function deleteCar(carId: number): Promise<void> {
     await fetch(`${API_URL}/garage/${carId}`, {
         method: 'DELETE',
+    });
+}
+
+export async function updateCar(car: Car): Promise<void> {
+    await fetch(`${API_URL}/garage/${car.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(car),
     });
 }
