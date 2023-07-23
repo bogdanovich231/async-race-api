@@ -1,6 +1,8 @@
 import { containerCar } from "./CardCar";
 import { garage } from "./Garage";
 import { Car } from "./interface/interface";
+import { deleteCar, updateCar } from './Api';
+
 
 export function renderGarage(cars: Car[], currentPage: number, pageCount: number): void {
     containerCar.innerHTML = '';
@@ -17,6 +19,87 @@ export function renderGarage(cars: Car[], currentPage: number, pageCount: number
     garageHeader.appendChild(carCount);
     containerCar.appendChild(garageHeader);
 
+    const createCarForm = document.createElement('div');
+    createCarForm.className = 'create_car_form';
+
+    const nameLabel = document.createElement('label');
+
+    const nameInput = document.createElement('input');
+    nameInput.type = 'text';
+
+    const colorLabel = document.createElement('label');
+
+    const colorInput = document.createElement('input');
+    colorInput.type = 'color';
+    let currentId = 1;
+    function generateId(): number {
+        return currentId++;
+    }
+    const createButton = document.createElement('button');
+    createButton.textContent = 'Create';
+
+    createButton.addEventListener('click', () => {
+        const name = nameInput.value;
+        const color = colorInput.value;
+        const id = generateId();
+        if (name && color) {
+            const newCar: Car = {
+                id,
+                name,
+                color,
+            };
+            garage.addCar(newCar);
+        }
+    });
+
+    createCarForm.appendChild(nameLabel);
+    createCarForm.appendChild(nameInput);
+    createCarForm.appendChild(colorLabel);
+    createCarForm.appendChild(colorInput);
+    createCarForm.appendChild(createButton);
+
+    containerCar.appendChild(createCarForm);
+
+    const editForm = document.createElement('div');
+    editForm.className = 'edit_form';
+
+    const editNameLabel = document.createElement('label');
+
+    const editNameInput = document.createElement('input');
+    editNameInput.type = 'text';
+    editNameInput.className = 'edit_name_input';
+
+    const editColorLabel = document.createElement('label');
+
+    const editColorInput = document.createElement('input');
+    editColorInput.type = 'color';
+    editColorInput.className = 'edit_color_input';
+
+    const updateButton = document.createElement('button');
+    updateButton.textContent = 'Update';
+    updateButton.addEventListener('click', async () => {
+        const newName = editNameInput.value;
+        const newColor = editColorInput.value;
+        if (newName && newColor && selectedCar) {
+            const updatedCar: Car = {
+                ...selectedCar,
+                name: newName,
+                color: newColor,
+            };
+            await updateCar(updatedCar);
+            garage.loadCars();
+        }
+    });
+
+    editForm.appendChild(editNameLabel);
+    editForm.appendChild(editNameInput);
+    editForm.appendChild(editColorLabel);
+    editForm.appendChild(editColorInput);
+    editForm.appendChild(updateButton);
+
+    containerCar.appendChild(editForm);
+
+    let selectedCar: Car | null = null;
     cars.forEach((car: Car) => {
 
         const carElement = document.createElement('div');
@@ -118,12 +201,30 @@ l26 0 -7 123 c-10 179 -15 207 -36 207 -10 0 -63 -48 -119 -107z" fill="${car.colo
 </g>
             </svg>
         `;
+        const selectButton = document.createElement('button');
+        selectButton.textContent = 'Select';
+        selectButton.addEventListener('click', () => {
+            selectedCar = car;
+            editNameInput.value = car.name;
+            editColorInput.value = car.color;
+        });
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Remove';
+        deleteButton.addEventListener('click', async () => {
+            await deleteCar(car.id);
+            garage.loadCars();
+        });
+
         carElement.innerHTML = `<span>${car.name}</span>${svgString}`;
+        carElement.prepend(selectButton);
+        carElement.prepend(deleteButton);
         containerCar.appendChild(carElement);
+
     });
+
     const pagination = document.createElement('div');
     pagination.className = 'pagination';
-
 
     const currentPageInfo = document.createElement('span');
     currentPageInfo.textContent = `Page ${currentPage} of ${pageCount}`;
