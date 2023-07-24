@@ -17,20 +17,48 @@ body {
     }
 }
 
-
-.block_car svg {
-    width: 85px;
-    height: 70px;
-    margin-bottom: -18px;
-}
-
 .block_car {
     display: grid;
+
+    border-bottom: 3px red dashed;
+    margin-bottom: 10px;
 }
+
+.block_car_svg {
+    width: 85px;
+    height: 70px;
+
+    overflow: hidden;
+}
+
+.block_car_svg svg {
+
+    margin-bottom: 0;
+    transition: left 1s linear;
+    width: 100%;
+    height: 100%;
+}
+
+
+@keyframes Animation {
+    to {
+        transform: translateX(1000%);
+    }
+}
+
+
 
 .block_car span {
     color: white;
     margin-bottom: -5px;
+    margin-top: 15px;
+}
+
+.block_car button {
+    width: 65px;
+    height: 25px;
+    border: none;
+    border-radius: 6px;
     margin-top: 15px;
 }
 
@@ -76,8 +104,4 @@ h2 {
 
 .pagination span {
     margin: 0 5px;
-}
-
-.block_car {
-    border-bottom: 3px red dashed;
 }
