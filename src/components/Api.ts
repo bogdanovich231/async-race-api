@@ -3,9 +3,16 @@ import { Car, Winner } from './interface/interface';
 const API_URL = 'http://localhost:3000';
 
 export async function getCars(): Promise<Car[]> {
-    const response = await fetch(`${API_URL}/garage`);
-    const data = await response.json();
-    return data;
+    try {
+        const response = await fetch(`${API_URL}/garage`);
+        if (!response.ok) {
+            throw new Error("Failed to fetch cars.");
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching cars:", error);
+        throw error;
+    }
 }
 export async function getWin(): Promise<Winner[]> {
     const response = await fetch(`${API_URL}/winners`);
@@ -45,3 +52,4 @@ export async function updateCar(car: Car): Promise<void> {
         body: JSON.stringify(car),
     });
 }
+
