@@ -2,6 +2,8 @@ import { containerCar } from "./CardCar";
 import { garage } from "./Garage";
 import { Car } from "./interface/interface";
 import { deleteCar, updateCar } from './Api';
+import { setupStartButton, setupStopButton } from "./EngineButton";
+
 
 
 export function renderGarage(cars: Car[], currentPage: number, pageCount: number): void {
@@ -47,6 +49,7 @@ export function renderGarage(cars: Car[], currentPage: number, pageCount: number
                 id,
                 name,
                 color,
+                isMoving: false,
             };
             garage.addCar(newCar);
         }
@@ -103,7 +106,11 @@ export function renderGarage(cars: Car[], currentPage: number, pageCount: number
     cars.forEach((car: Car) => {
 
         const carElement = document.createElement('div');
-        carElement.className = "block_car"
+        carElement.className = "block_car";
+
+        const carSvgBlock = document.createElement('div');
+        carSvgBlock.className = "block_car_svg";
+        carSvgBlock.id = `car-${car.id}`;
         const svgString = `
         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
         width="1280.000000pt" height="640.000000pt" viewBox="0 0 1280.000000 640.000000"
@@ -201,6 +208,17 @@ l26 0 -7 123 c-10 179 -15 207 -36 207 -10 0 -63 -48 -119 -107z" fill="${car.colo
 </g>
             </svg>
         `;
+        const startButtonPromise = setupStartButton(car);
+        const stopButtonPromise = setupStopButton(car);
+
+        Promise.all([startButtonPromise, stopButtonPromise])
+            .then(([startEngineButton, stopEngineButton]) => {
+                carElement.appendChild(startEngineButton);
+                carElement.appendChild(stopEngineButton);
+            })
+            .catch((error) => {
+                console.error("Error setting up buttons:", error);
+            });
         const selectButton = document.createElement('button');
         selectButton.textContent = 'Select';
         selectButton.addEventListener('click', () => {
@@ -216,11 +234,12 @@ l26 0 -7 123 c-10 179 -15 207 -36 207 -10 0 -63 -48 -119 -107z" fill="${car.colo
             garage.loadCars();
         });
 
-        carElement.innerHTML = `<span>${car.name}</span>${svgString}`;
+        carElement.innerHTML = `<span>${car.name}</span>`;
+        containerCar.appendChild(carElement);
         carElement.prepend(selectButton);
         carElement.prepend(deleteButton);
-        containerCar.appendChild(carElement);
-
+        carSvgBlock.innerHTML = `${svgString}`;
+        carElement.prepend(carSvgBlock);
     });
 
     const pagination = document.createElement('div');

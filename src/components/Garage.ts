@@ -76,6 +76,7 @@ genereteButton.addEventListener('click', async () => {
             name: getRandomName(),
             color: getRandomColor(),
             id: garage.getCars().length + 1,
+            isMoving: true,
         };
         await garage.addCar(car);
     }
