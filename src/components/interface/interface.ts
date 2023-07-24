@@ -2,6 +2,7 @@ export interface Car {
     id: number;
     name: string;
     color: string;
+    isMoving: boolean;
 }
 
 export interface Winner {
@@ -22,4 +23,7 @@ export interface WinnersViewState {
     pageNumber: number;
     totalItems: number;
 }
-
+export interface DriveData {
+    velocity: number;
+    distance: number;
+}
