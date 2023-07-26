@@ -1,4 +1,4 @@
-import { names } from './NameCar';
+import { modelCar, names } from './NameCar';
 
 export const genereteButton = document.createElement("button");
 export const containerCar = document.createElement("div");
@@ -16,12 +16,17 @@ winnerButton.innerHTML = "To Winner";
 
 document.body.appendChild(viewGarage);
 document.body.appendChild(winnerButton);
-document.body.appendChild(genereteButton);
 document.body.appendChild(containerCar);
+document.body.appendChild(genereteButton);
 
-export function getRandomName(): string {
-    const randomIndex = Math.floor(Math.random() * names.length);
-    return names[randomIndex];
+export function getRandomCarName(): string {
+    const randomNameIndex = Math.floor(Math.random() * names.length);
+    const randomModelIndex = Math.floor(Math.random() * modelCar.length);
+
+    const randomName = names[randomNameIndex];
+    const randomModel = modelCar[randomModelIndex];
+
+    return `${randomName} ${randomModel}`;
 }
 
 export function getRandomColor(): string {
