@@ -1,10 +1,9 @@
-import { containerCar } from "./CardCar";
+import { containerCar, genereteButton, getRandomCarName } from "./CardCar";
 import { garage } from "./Garage";
 import { Car } from "./interface/interface";
 import { deleteCar, updateCar } from './Api';
 import { setupStartButton, setupStopButton } from "./EngineButton";
-
-
+import { resetRace, startRace } from "./Race";
 
 export function renderGarage(cars: Car[], currentPage: number, pageCount: number): void {
     containerCar.innerHTML = '';
@@ -41,7 +40,7 @@ export function renderGarage(cars: Car[], currentPage: number, pageCount: number
     createButton.textContent = 'Create';
 
     createButton.addEventListener('click', () => {
-        const name = nameInput.value;
+        const name = nameInput.value || getRandomCarName(); // Если поле ввода пустое, используем случайное имя
         const color = colorInput.value;
         const id = generateId();
         if (name && color) {
@@ -93,7 +92,17 @@ export function renderGarage(cars: Car[], currentPage: number, pageCount: number
             garage.loadCars();
         }
     });
+    const raceButton = document.createElement('button');
+    raceButton.textContent = 'Начать гонку';
+    raceButton.addEventListener('click', () => {
+        startRace(cars);
+    });
 
+    const resetButton = document.createElement('button');
+    resetButton.textContent = 'Сбросить';
+    resetButton.addEventListener('click', () => {
+        resetRace(cars);
+    });
     editForm.appendChild(editNameLabel);
     editForm.appendChild(editNameInput);
     editForm.appendChild(editColorLabel);
@@ -101,7 +110,9 @@ export function renderGarage(cars: Car[], currentPage: number, pageCount: number
     editForm.appendChild(updateButton);
 
     containerCar.appendChild(editForm);
-
+    containerCar.appendChild(raceButton);
+    containerCar.appendChild(resetButton);
+    containerCar.appendChild(genereteButton)
     let selectedCar: Car | null = null;
     cars.forEach((car: Car) => {
 
@@ -208,6 +219,7 @@ l26 0 -7 123 c-10 179 -15 207 -36 207 -10 0 -63 -48 -119 -107z" fill="${car.colo
 </g>
             </svg>
         `;
+
         const startButtonPromise = setupStartButton(car);
         const stopButtonPromise = setupStopButton(car);
 
@@ -219,6 +231,7 @@ l26 0 -7 123 c-10 179 -15 207 -36 207 -10 0 -63 -48 -119 -107z" fill="${car.colo
             .catch((error) => {
                 console.error("Error setting up buttons:", error);
             });
+
         const selectButton = document.createElement('button');
         selectButton.textContent = 'Select';
         selectButton.addEventListener('click', () => {
@@ -235,11 +248,13 @@ l26 0 -7 123 c-10 179 -15 207 -36 207 -10 0 -63 -48 -119 -107z" fill="${car.colo
         });
 
         carElement.innerHTML = `<span>${car.name}</span>`;
-        containerCar.appendChild(carElement);
+
         carElement.prepend(selectButton);
         carElement.prepend(deleteButton);
         carSvgBlock.innerHTML = `${svgString}`;
-        carElement.prepend(carSvgBlock);
+        carElement.appendChild(carSvgBlock);
+        containerCar.appendChild(carElement);
+
     });
 
     const pagination = document.createElement('div');
