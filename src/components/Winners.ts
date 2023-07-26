@@ -13,7 +13,13 @@ export default class Winners {
 
     async addWinner(winner: Winner): Promise<void> {
         await addWin(winner);
-        this.winners.push(winner);
+        const existingWinner = this.winners.find((w) => w.car.id === winner.car.id);
+        if (existingWinner) {
+            existingWinner.wins++;
+            existingWinner.bestTime = Math.min(existingWinner.bestTime, winner.bestTime);
+        } else {
+            this.winners.push(winner);
+        }
         this.state.totalItems = this.winners.length;
         renderWinners(this.winners);
     }
@@ -31,6 +37,7 @@ export default class Winners {
     showWinners(): void {
         renderWinners(this.winners);
     }
+
 }
 
 const win = new Winners();
