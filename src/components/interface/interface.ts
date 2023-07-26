@@ -3,13 +3,14 @@ export interface Car {
     name: string;
     color: string;
     isMoving: boolean;
+
 }
 
 export interface Winner {
-    name: string;
     id: number;
+    car: Car;
     wins: number;
-    time: number;
+    bestTime: number;
 }
 
 export interface GarageViewState {
@@ -26,4 +27,14 @@ export interface WinnersViewState {
 export interface DriveData {
     velocity: number;
     distance: number;
+    status: number;
+
+}
+
+export interface AnimationState {
+    carId: number;
+    animationFrameId: number | null;
+    startTime: number;
+    currentPosition: number;
+    animationDuration: number;
 }
