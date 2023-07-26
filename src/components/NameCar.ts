@@ -110,3 +110,29 @@ export const names = [
     " Zotye "
 ];
 
+export const modelCar = [
+    "Camry",
+    "Civic",
+    "X5",
+    "Mustang",
+    "C-Class",
+    "A4",
+    "Corvette",
+    "RX",
+    "Model 3",
+    "Altima",
+    "Outback",
+    "Golf",
+    "Sonata",
+    "Sportage",
+    "CX-5",
+    "Wrangler",
+    "XC60",
+    "911",
+    "488",
+    "Huracan",
+    "CX-10",
+    "IX",
+    "M",
+    "AB",
+]
