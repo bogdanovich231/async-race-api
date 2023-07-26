@@ -60,7 +60,9 @@ input[type="color"] {
     margin-bottom: 10px;
 }
 
-
+table {
+    color: white;
+}
 
 .block_car_svg {
 
