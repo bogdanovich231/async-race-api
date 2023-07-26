@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&family=Roboto:wght@100&display=swap');
+
 body {
     background: linear-gradient(to right, #000000, #1d1dff);
     background-size: 200% 100%;
@@ -5,7 +7,7 @@ body {
     filter: brightness(200%);
     position: relative;
     overflow: visible;
-
+    font-family: 'Roboto', sans-serif;
 }
 
 .car_container {
@@ -22,11 +24,43 @@ body {
     }
 }
 
+input[type=text] {
+    resize: vertical;
+    padding: 5px;
+    border-radius: 15px;
+    border: 0;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.06);
+    height: 15px;
+}
+
+.create_car_form {
+    margin-bottom: 10px;
+    display: flex;
+}
+
+
+
+.edit_form {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+input[type="color"] {
+    width: 30px;
+    height: 25px;
+    border: none;
+    cursor: pointer;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 .block_car {
     display: grid;
     border-bottom: 3px red dashed;
     margin-bottom: 10px;
 }
+
+
 
 .block_car_svg {
 
@@ -54,7 +88,10 @@ body {
     margin-top: 15px;
 }
 
-.car_generate,
+.car_generate {
+    width: 108px;
+}
+
 .car_winner,
 .garage_button {
     width: 95px;
@@ -63,6 +100,10 @@ body {
     border: none;
     color: black;
     font-size: 15px;
+}
+
+.car_winner {
+    margin-left: 20px;
 }
 
 span,
