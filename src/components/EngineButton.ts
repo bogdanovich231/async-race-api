@@ -1,26 +1,29 @@
-import { Car } from "./interface/interface";
+import { Car, DriveData } from "./interface/interface";
 import { startCarEngine, stopCarEngine, driveCar } from "./Api";
 import { animateCar, resetCarAnimation } from "./Animation";
 
+export const carStates: Record<number, boolean> = {};
+
 export async function setupStartButton(car: Car): Promise<HTMLElement> {
     const startButton = document.createElement("button");
-    startButton.textContent = "Запустить";
-    startButton.disabled = car.isMoving;
+    startButton.textContent = "A";
+    startButton.className = "block_car_start_button";
+    startButton.disabled = carStates[car.id];
 
     startButton.addEventListener("click", async () => {
         try {
-            await startCarEngine(car.id);
+            const driveData: DriveData = await startCarEngine(car.id);
             startButton.disabled = true;
-            const data = await driveCar(car.id);
+            animateCar(car.id, driveData.velocity, driveData.distance);
 
-            if (!data.velocity || data.velocity <= 0) {
-                resetCarAnimation(car.id);
-                return;
+            carStates[car.id] = true;
+
+            const stopButtons = document.querySelectorAll(".block_car_stop_button") as NodeListOf<HTMLButtonElement>;
+            for (let i = 0; i < stopButtons.length; i++) {
+                stopButtons[i].disabled = false;
             }
-
-            animateCar(car.id, data.velocity);
         } catch (error) {
-            console.error("Ошибка при запуске двигателя:", error);
+            console.error("Error starting the engine:", error);
             resetCarAnimation(car.id);
         }
     });
@@ -30,16 +33,24 @@ export async function setupStartButton(car: Car): Promise<HTMLElement> {
 
 export async function setupStopButton(car: Car): Promise<HTMLElement> {
     const stopButton = document.createElement("button");
-    stopButton.textContent = "Остановить";
-    stopButton.disabled = !car.isMoving;
+    stopButton.textContent = "B";
+    stopButton.className = "block_car_stop_button";
+    stopButton.disabled = !carStates[car.id];
 
     stopButton.addEventListener("click", async () => {
         try {
+            stopButton.disabled = true; // Disable after click
             await stopCarEngine(car.id);
-            stopButton.disabled = true;
             resetCarAnimation(car.id);
+
+            carStates[car.id] = false;
+
+            const startButton = document.querySelector(".block_car_start_button") as HTMLButtonElement;
+            if (startButton) {
+                startButton.disabled = false;
+            }
         } catch (error) {
-            console.error("Ошибка при остановке двигателя:", error);
+            console.error("Error stopping the engine:", error);
         }
     });
 
