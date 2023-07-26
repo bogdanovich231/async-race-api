@@ -1,10 +1,14 @@
+import { pauseCarAnimation } from './Animation';
+import { renderGarage } from './GarageRender';
 import { Car, DriveData, Winner } from './interface/interface';
 
 const API_URL = 'http://localhost:3000';
 
 export async function getCars(): Promise<Car[]> {
     try {
-        const response = await fetch(`${API_URL}/garage`);
+        const response = await fetch(`${API_URL}/garage`, {
+            method: 'GET'
+        });
         if (!response.ok) {
             throw new Error("Failed to fetch cars.");
         }
@@ -19,14 +23,26 @@ export async function getWin(): Promise<Winner[]> {
     const data = await response.json();
     return data;
 }
-export async function addCar(car: Car): Promise<void> {
-    await fetch(`${API_URL}/garage`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(car)
-    });
+export async function addCar(car: Car): Promise<Car> {
+    try {
+        const response = await fetch(`${API_URL}/garage?id=${car.id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(car)
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to add a car to the server.');
+        }
+
+        const addedCar: Car = await response.json();
+        return addedCar;
+    } catch (error) {
+        console.error('Error when adding a vehicle:', error);
+        throw error;
+    }
 }
 export async function addWin(win: Winner): Promise<void> {
     await fetch(`${API_URL}/winners`, {
@@ -54,20 +70,25 @@ export async function updateCar(car: Car): Promise<void> {
     });
 }
 
-export async function startCarEngine(carId: number): Promise<{ velocity: number, distance: number }> {
+export async function startCarEngine(carId: number): Promise<DriveData> {
     try {
-        const response = await fetch(`${API_URL}/engine?id=${carId}&status=started`,
-            {
-                method: 'PATCH'
-            });
+        const response = await fetch(`${API_URL}/engine?id=${carId}&status=started`, {
+            method: 'PATCH'
+        });
+
         if (!response.ok) {
             throw new Error("Failed to start car engine.");
         }
-        return response.json(); // Add return statement here
+
+        const data = await response.json();
+        const driveData: DriveData = { velocity: data.velocity, distance: data.distance, status: 200 };
+
+        return driveData;
     } catch (error) {
         console.error("Error starting car engine:", error);
         throw error;
     }
+
 }
 
 export async function stopCarEngine(carId: number): Promise<void> {
@@ -79,24 +100,32 @@ export async function stopCarEngine(carId: number): Promise<void> {
         if (!response.ok) {
             throw new Error("Failed to stop car engine.");
         }
-        return; // Add return statement here
+        return;
     } catch (error) {
         console.error("Error stopping car engine:", error);
         throw error;
     }
 }
-export async function driveCar(carId: number): Promise<DriveData> {
+export async function driveCar(carId: number, velocity: number, distance: number): Promise<DriveData> {
     try {
-        const response = await fetch(`${API_URL}/engine?id=${carId}&status=drive`, {
-            method: "PATCH"
-        });
+        const response = await fetch(`${API_URL}/engine?id=${carId}&status=drive`,
+            {
+                method: 'PATCH'
+            });
         if (!response.ok) {
-            throw new Error("Failed to start driving.");
+            throw new Error("Failed to stop car engine.");
         }
-        const data = await response.json();
-        return data as DriveData;
+        const data = { velocity, distance, status: 200 };
+
+        if (!data.velocity || typeof data.velocity !== "number" || data.velocity <= 0 ||
+            !data.distance || typeof data.distance !== "number" || data.distance <= 0) {
+            throw new Error(`Invalid drive data received for car ${carId}.`);
+        }
+
+        return { ...data } as DriveData;
     } catch (error) {
         console.error("Error starting driving:", error);
-        throw error;
+        pauseCarAnimation(carId);
+        return { velocity, distance, status: 500 } as DriveData;
     }
 }
