@@ -1,5 +1,5 @@
 import { Car, GarageViewState } from './interface/interface';
-import { genereteButton, getRandomName, getRandomColor } from './CardCar';
+import { genereteButton, getRandomCarName, getRandomColor } from './CardCar';
 import { addCar, getCars } from './Api';
 import { viewGarage } from './CardCar';
 import { renderGarage } from './GarageRender';
@@ -25,7 +25,6 @@ export default class Garage {
         await addCar(car);
         this.cars.push(car);
         this.state.totalItems = this.cars.length;
-        this.showPage(this.currentPage);
     }
 
     getViewState(): GarageViewState {
@@ -73,7 +72,7 @@ viewGarage.addEventListener('click', async () => {
 genereteButton.addEventListener('click', async () => {
     for (let i = 0; i < 100; i++) {
         const car: Car = {
-            name: getRandomName(),
+            name: getRandomCarName(),
             color: getRandomColor(),
             id: garage.getCars().length + 1,
             isMoving: true,
@@ -81,5 +80,4 @@ genereteButton.addEventListener('click', async () => {
         await garage.addCar(car);
     }
 });
-
 garage.loadCars();
