@@ -3,6 +3,7 @@ import { Winner } from "./interface/interface";
 
 export function renderWinners(winners: Winner[]): void {
     containerCar.innerHTML = '';
+
     const winnersHeader = document.createElement('div');
     winnersHeader.className = 'winners_header';
 
@@ -16,30 +17,42 @@ export function renderWinners(winners: Winner[]): void {
     winnersHeader.appendChild(winnerCount);
     containerCar.appendChild(winnersHeader);
 
-    winners.forEach((winner: Winner, index: number) => {
-        const winnerElement = document.createElement('div');
-        winnerElement.className = "block_car_winner";
+    const table = document.createElement('table');
 
-        const carElement = document.createElement('div');
-        carElement.className = "car_info";
-
-        const placeElement = document.createElement('span');
-        placeElement.className = "car_place";
-        placeElement.textContent = `Place: ${index + 1}`;
-
-        const nameElement = document.createElement('span');
-        nameElement.className = "car_name";
-        nameElement.textContent = `Name: ${winner.name}`;
-
-        const timeElement = document.createElement('span');
-        timeElement.className = "car_time";
-        timeElement.textContent = `Time: ${winner.time} seconds`;
-
-        carElement.appendChild(placeElement);
-        carElement.appendChild(nameElement);
-        carElement.appendChild(timeElement);
-
-        winnerElement.appendChild(carElement);
-        containerCar.appendChild(winnerElement);
+    const tableHeader = document.createElement('tr');
+    const headers = ['№', 'Car', 'Name', 'Wins', 'Best Time(seconds)'];
+    headers.forEach((headerText) => {
+        const header = document.createElement('th');
+        header.textContent = headerText;
+        tableHeader.appendChild(header);
     });
+    table.appendChild(tableHeader);
+
+    winners.forEach((winner, index) => {
+        const row = document.createElement('tr');
+
+        const numberCell = document.createElement('td');
+        numberCell.textContent = `${index + 1}`;
+        row.appendChild(numberCell);
+
+        const carImageCell = document.createElement('td');
+        carImageCell.textContent = 'car';
+        row.appendChild(carImageCell);
+
+        const nameCell = document.createElement('td');
+        nameCell.textContent = winner.car ? winner.car.name : 'Unknown';
+        row.appendChild(nameCell);
+
+        const winsCell = document.createElement('td');
+        winsCell.textContent = `${winner.wins}`;
+        row.appendChild(winsCell);
+
+        const bestTimeCell = document.createElement('td');
+        bestTimeCell.textContent = `${winner.bestTime}`;
+        row.appendChild(bestTimeCell);
+
+        table.appendChild(row);
+    });
+
+    containerCar.appendChild(table);
 }
