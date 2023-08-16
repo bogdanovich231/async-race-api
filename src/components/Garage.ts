@@ -1,11 +1,12 @@
 import { Car, GarageViewState } from './interface/interface';
-import { genereteButton, getRandomCarName, getRandomColor } from './CardCar';
+import { genereteButton, getRandomCarName, getRandomColor , viewGarage } from './CardCar';
 import { addCar, getCars } from './Api';
-import { viewGarage } from './CardCar';
+
 import { renderGarage } from './GarageRender';
 
 export default class Garage {
     private cars: Car[] = [];
+
     private state: GarageViewState = {
         name: 'Garage',
         pageNumber: 1,
@@ -13,6 +14,7 @@ export default class Garage {
     };
 
     public itemsPerPage = 7;
+
     private currentPage: number = 1;
 
     async loadCars(): Promise<void> {
@@ -77,7 +79,7 @@ genereteButton.addEventListener('click', async () => {
             id: garage.getCars().length + 1,
             isMoving: true,
         };
-        await garage.addCar(car);
+         garage.addCar(car);
     }
 });
 garage.loadCars();

@@ -1,4 +1,4 @@
-import { driveCar, stopCarEngine } from "./Api";
+import { driveCar } from "./Api";
 import { containerCar } from "./CardCar";
 import { Car } from "./interface/interface";
 
@@ -17,7 +17,7 @@ export async function animateCar(car: number, velocity: number, distance: number
         return;
     }
 
-    let isAnimating = true; // Add a flag to control the animation state
+    let isAnimating = true;
     console.log('Car data:', car);
 
     try {
@@ -37,23 +37,23 @@ export async function animateCar(car: number, velocity: number, distance: number
             const progress = (timestamp - startTime) / animationDuration;
             currentPosition = progress * containerWidth;
 
-            if (carElement && isAnimating) { // Check if the animation is still ongoing
+            if (carElement && isAnimating) { 
                 carElement.style.transform = `translateX(${Math.min(currentPosition, maxPosition)}px)`;
             }
 
-            if (currentPosition < containerWidth && isAnimating) { // Check if the animation is still ongoing
+            if (currentPosition < containerWidth && isAnimating) { 
                 animationFrameId = requestAnimationFrame(step);
             } else if (carElement) {
                 carElement.style.transition = '';
 
-                if (isAnimating) { // Check if the animation is still ongoing before calling driveCar
+                if (isAnimating) { 
                     driveCar(car, velocity, distance)
                         .then((data) => {
                             if (data.status === 500) {
                                 pauseCarAnimation(car);
                                 console.warn(`Car ${car} encountered an error and should stop.`);
                             } else if (data.status === 200) {
-                                isAnimating = false; // Animation is done, set the flag to false
+                                isAnimating = false; 
                             } else {
                                 console.warn(`Car ${car} animation was interrupted with status: ${data.status}.`);
                             }

@@ -77,7 +77,7 @@ export function renderGarage(cars: Car[], currentPage: number, pageCount: number
     const editColorInput = document.createElement('input');
     editColorInput.type = 'color';
     editColorInput.className = 'edit_color_input';
-
+    let selectedCar: Car | null = null;
     const updateButton = document.createElement('button');
     updateButton.textContent = 'Update';
     updateButton.addEventListener('click', async () => {
@@ -114,7 +114,6 @@ export function renderGarage(cars: Car[], currentPage: number, pageCount: number
     containerCar.appendChild(raceButton);
     containerCar.appendChild(resetButton);
     containerCar.appendChild(genereteButton)
-    let selectedCar: Car | null = null;
     cars.forEach((car: Car) => {
 
         const carElement = document.createElement('div');
@@ -123,8 +122,8 @@ export function renderGarage(cars: Car[], currentPage: number, pageCount: number
         const carSvgBlock = document.createElement('div');
         carSvgBlock.className = "block_car_svg";
         carSvgBlock.id = `car-${car.id}`;
-carSvgBlock.innerHTML = carSvg;
-carSvgBlock.style.color=car.color;
+        carSvgBlock.innerHTML = carSvg;
+        carSvgBlock.style.color=car.color;
         const startButtonPromise = setupStartButton(car);
         const stopButtonPromise = setupStopButton(car);
 

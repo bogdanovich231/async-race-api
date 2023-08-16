@@ -5,6 +5,7 @@ import { renderWinners } from './WinnersRender';
 
 export default class Winners {
     private winners: Winner[] = [];
+
     private state: WinnersViewState = {
         name: 'Winners',
         pageNumber: 1,

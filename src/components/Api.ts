@@ -1,5 +1,4 @@
 import { pauseCarAnimation } from './Animation';
-import { renderGarage } from './GarageRender';
 import { Car, DriveData, Winner } from './interface/interface';
 
 const API_URL = 'http://localhost:3000';
@@ -100,7 +99,7 @@ export async function stopCarEngine(carId: number): Promise<void> {
         if (!response.ok) {
             throw new Error("Failed to stop car engine.");
         }
-        return;
+        
     } catch (error) {
         console.error("Error stopping car engine:", error);
         throw error;

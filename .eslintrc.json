@@ -1,29 +1,36 @@
 {
-    "plugins": [
-        "prettier",
-        "import",
-        "@typescript-eslint"
-    ],
+    "plugins": ["prettier", "import", "@typescript-eslint"],
     "extends": [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "prettier"
+      "airbnb",
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "prettier"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaVersion": 2020,
-        "sourceType": "module"
+      "ecmaVersion": 2020,
+      "sourceType": "module"
     },
     "env": {
-        "es6": true,
-        "browser": true,
-        "node": true
+      "es6": true,
+      "browser": true,
+      "node": true
     },
     "rules": {
-        "no-debugger": "off",
-        "no-console": "off",
-        "class-methods-use-this": "off",
-        "@typescript-eslint/no-explicit-any": "error",
-        "@typescript-eslint/no-inferrable-types": "off"
+      "no-debugger": "off",
+      "no-console": "off",
+      "class-methods-use-this": "off",
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/no-inferrable-types": "off",
+      "import/no-unresolved": "off",
+      "import/extensions": "off",
+      "@typescript-eslint/no-unused-vars": "error",
+      "func-names": ["error", "never"],
+      "no-void": ["error", { "allowAsStatement": true }],
+      "no-plusplus": "off",
+      "no-await-in-loop": "error",
+      "no-use-before-define": ["error", { "functions": false, "classes": true }],
+      "import/prefer-default-export": "off"
     }
-}
+  }
+  

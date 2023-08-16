@@ -1,5 +1,5 @@
 import { Car, DriveData } from "./interface/interface";
-import { startCarEngine, stopCarEngine, driveCar } from "./Api";
+import { startCarEngine, stopCarEngine } from "./Api";
 import { animateCar, resetCarAnimation } from "./Animation";
 
 export const carStates: Record<number, boolean> = {};
