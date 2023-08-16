@@ -20,7 +20,7 @@ module.exports = {
             },
             {
                 test: /\.svg$/,
-                type: 'asset/resource',
+                use: 'svg-inline-loader',
             },
             {
                 test: /\.(jpg|jpeg|png|gif)$/,
