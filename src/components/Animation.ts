@@ -18,8 +18,7 @@ export async function animateCar(car: number, velocity: number, distance: number
     }
 
     let isAnimating = true;
-    console.log('Car data:', car);
-
+    
     try {
         const containerWidth = blockWidthElement.getBoundingClientRect().width;
         const animationDuration = distance / velocity;

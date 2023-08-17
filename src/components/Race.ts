@@ -16,7 +16,6 @@ export async function startRace(cars: Car[]): Promise<void> {
         });
 
         await Promise.all(promises);
-        console.log(promises)
     } catch (error) {
         console.error('Error at the start of the race:', error);
     }

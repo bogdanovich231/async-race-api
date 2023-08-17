@@ -18,7 +18,7 @@
     },
     "rules": {
       "no-debugger": "off",
-      "no-console": "off",
+      "no-console": ["error", {"allow": ["warn", "error"]}],
       "class-methods-use-this": "off",
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-inferrable-types": "off",
