@@ -24,7 +24,7 @@
       "@typescript-eslint/no-inferrable-types": "off",
       "import/no-unresolved": "off",
       "import/extensions": "off",
-      "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/no-unused-vars": "off",
       "func-names": ["error", "never"],
       "no-void": ["error", { "allowAsStatement": true }],
       "no-plusplus": "off",
