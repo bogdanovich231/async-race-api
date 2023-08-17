@@ -18,7 +18,7 @@ export async function animateCar(car: number, velocity: number, distance: number
     }
 
     let isAnimating = true;
-    
+
     try {
         const containerWidth = blockWidthElement.getBoundingClientRect().width;
         const animationDuration = distance / velocity;
@@ -72,7 +72,7 @@ export async function animateCar(car: number, velocity: number, distance: number
             stopButton.addEventListener("click", () => {
                 if (animationFrameId) {
                     cancelAnimationFrame(animationFrameId);
-                    isAnimating = false; // Animation is stopped, set the flag to false
+                    isAnimating = false; 
                 }
             });
         }
@@ -105,8 +105,6 @@ export function declareWinner(car: Car): void {
 
         winnerMessage.style.opacity = '0';
         containerCar.appendChild(winnerMessage);
-
-        void winnerMessage.offsetWidth;
 
         winnerMessage.style.opacity = '1';
 
